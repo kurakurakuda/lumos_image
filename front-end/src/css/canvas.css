@@ -1,0 +1,6 @@
+.canvas {
+    margin: 4px;
+    border: 0.5px solid #212121;
+	width: 512px;
+	height: 512px;
+}
