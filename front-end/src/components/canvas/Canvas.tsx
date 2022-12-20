@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import p5 from "p5";
 
 interface Props {
@@ -6,6 +6,8 @@ interface Props {
 }
 
 const Canvas: React.FunctionComponent<Props> = (props: Props) => {
+  const containerRef = useRef();
+
   const sketch = (p: p5): any => {
     p.setup = () => {
       p.noCanvas();
@@ -27,7 +29,10 @@ const Canvas: React.FunctionComponent<Props> = (props: Props) => {
 
   useEffect(() => {
     // eslint-disable-next-line no-new, new-cap
-    new p5(sketch);
+    const p5Instance = new p5(sketch, containerRef.current);
+    // Cleanup function! Without this the new p5.js sketches
+    // generated with each click will just appear one after the other.
+    return () => p5Instance.remove();
   });
   return <div id="'canvas" ref={React.createRef()} />;
 };
