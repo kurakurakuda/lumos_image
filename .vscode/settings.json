@@ -1,0 +1,15 @@
+{
+  // "front-end"フォルダ配下のeslintが見に行くtsconfig.jsonを指定
+  "eslint.workingDirectories": ["./front-end"],
+  // ファイル保存時の自動フォーマット有効
+  "editor.formatOnSave": true,
+  // デフォルトフォーマッターをPrettierに指定
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    // ファイル保存時に ESLint でフォーマット
+    "source.fixAll.eslint": true
+  },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  }
+}

@@ -1,26 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/home.css";
 import "../css/canvas.css"
+import Canvas from "./canvas/Canvas";
 
-const Home = () => {
+const Home:React.FunctionComponent = () => {
+
+    const [isUploaded, setIsUploaded] = useState(false)
+
     return (
         <div className="home">
             Home <br />
+
             <div className="canvas">
-                ここの画像をアップロードしてください
+                <Canvas isUploaded={isUploaded} />
             </div>
             <div className="btn-area">
                 <div>
                     <button
                         className="btn clear-btn"
-                        onClick={() => null}>
+                        onClick={() => setIsUploaded(false)}>
                         クリア
                     </button>
                 </div>
                 <div>
                     <button
                         className="btn upload-btn"
-                        onClick={() => null}>
+                        onClick={() => setIsUploaded(true)}>
                         アップロード
                     </button>
                     <button
