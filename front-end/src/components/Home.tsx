@@ -15,6 +15,7 @@ const Home = () => {
       <div className="btn-area">
         <div>
           <button
+            type="button"
             className="btn clear-btn"
             onClick={() => setIsUploaded(false)}
           >
@@ -23,12 +24,13 @@ const Home = () => {
         </div>
         <div>
           <button
+            type="button"
             className="btn upload-btn"
             onClick={() => setIsUploaded(true)}
           >
             アップロード
           </button>
-          <button className="btn save-btn" onClick={() => null}>
+          <button type="button" className="btn save-btn" onClick={() => null}>
             保存
           </button>
         </div>

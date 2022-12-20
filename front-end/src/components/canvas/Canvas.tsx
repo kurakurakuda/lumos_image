@@ -5,10 +5,14 @@ interface Props {
   isUploaded: boolean;
 }
 
-const Canvas = (props: Props) => {
+const Canvas = ({ isUploaded }: Props) => {
   const containerRef = useRef();
 
+  // Since this is specific to p5 module,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sketch = (p: p5): any => {
+    // Since this is specific to p5 module,
+    // eslint-disable-next-line no-param-reassign
     p.setup = () => {
       p.noCanvas();
       p.createCanvas(512, 512);
@@ -16,8 +20,10 @@ const Canvas = (props: Props) => {
       p.frameRate(30);
     };
 
+    // Since this is specific to p5 module,
+    // eslint-disable-next-line no-param-reassign
     p.draw = () => {
-      if (props.isUploaded) {
+      if (isUploaded) {
         p.ellipse(50, 50, 80, 80);
       } else {
         p.background(222);
@@ -27,6 +33,8 @@ const Canvas = (props: Props) => {
   };
 
   useEffect(() => {
+    // Since this is specific to p5 module,
+    // eslint-disable-next-line new-cap
     const p5Instance = new p5(sketch, containerRef.current);
     return () => p5Instance.remove();
   });
