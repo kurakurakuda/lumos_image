@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "../css/home.css";
-import "../css/canvas.css";
-import Canvas from "./canvas/Canvas";
+import React, { useState } from 'react';
+import '../css/home.css';
+import '../css/canvas.css';
+import Canvas from './canvas/Canvas';
 
 const Home = () => {
   const [isUploaded, setIsUploaded] = useState(false);

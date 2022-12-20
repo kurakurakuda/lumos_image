@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import p5 from "p5";
+import React, { useEffect, useRef } from 'react';
+import p5 from 'p5';
 
 interface Props {
   isUploaded: boolean;
@@ -21,7 +21,7 @@ const Canvas = (props: Props) => {
         p.ellipse(50, 50, 80, 80);
       } else {
         p.background(222);
-        p.text("イメージをアップロードしてください", 512 / 2, 512 / 2);
+        p.text('イメージをアップロードしてください', 512 / 2, 512 / 2);
       }
     };
   };
