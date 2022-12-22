@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../css/home.css';
-import '../css/canvas.css';
 import Canvas from './canvas/Canvas';
+import Lumos from './canvas/sketch/Lumos';
+import NoImage from './canvas/sketch/NoImage';
 
 const Home = () => {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -9,7 +10,7 @@ const Home = () => {
   return (
     <div className="home">
       Home <br />
-      <Canvas isUploaded={isUploaded} />
+      <Canvas sketch={isUploaded ? Lumos.sketch() : NoImage.sketch()} />
       <div className="btn-area">
         <div>
           <button
