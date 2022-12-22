@@ -9,9 +9,7 @@ const Home = () => {
   return (
     <div className="home">
       Home <br />
-      <div className="canvas">
-        <Canvas isUploaded={isUploaded} />
-      </div>
+      <Canvas isUploaded={isUploaded} />
       <div className="btn-area">
         <div>
           <button

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import p5 from 'p5';
+import '../../css/canvas.css';
 
 interface Props {
   isUploaded: boolean;
@@ -14,8 +15,7 @@ const Canvas = ({ isUploaded }: Props) => {
     // Since this is specific to p5 module,
     // eslint-disable-next-line no-param-reassign
     p.setup = () => {
-      p.noCanvas();
-      p.createCanvas(512, 512);
+      p.createCanvas(512, 512).parent('canvas');
       p.pixelDensity(1);
       p.frameRate(30);
     };
@@ -38,7 +38,7 @@ const Canvas = ({ isUploaded }: Props) => {
     const p5Instance = new p5(sketch, containerRef.current);
     return () => p5Instance.remove();
   });
-  return <div id="'canvas" ref={React.createRef()} />;
+  return <div id="canvas" className="canvas" ref={React.createRef()} />;
 };
 
 export default Canvas;
