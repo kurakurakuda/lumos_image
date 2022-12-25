@@ -6,35 +6,51 @@ import NoImage from './canvas/sketch/NoImage';
 
 const Home = () => {
   const [isUploaded, setIsUploaded] = useState(false);
-  const [image, setImage] = useState('');
+  const [imageProps, setImage] = useState({ src: '', width: 0, height: 0 });
   const uploadRef = useRef<HTMLInputElement>(null);
 
   const onUploadButtonClick = () => {
     // useRef<HTMLInputElement>のcurrent要素を呼び出し、ファイル選択画面を表示
-    window.URL.revokeObjectURL(image);
     uploadRef.current?.click();
   };
 
   const onImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
-    // React.ChangeEvent<HTMLInputElement>よりファイルを取得
+    const img = new Image();
+
+    img.onload = () => {
+      // ここでサイズが取得できる
+      const props = {
+        src: img.src,
+        width: img.naturalWidth,
+        height: img.naturalHeight
+      };
+      setIsUploaded(true);
+      setImage(props);
+
+      window.URL.revokeObjectURL(imageProps.src);
+      // onChangeは連続で同じファイルを選択すると発火しないので、
+      // この操作を追加して、発火するようにする
+      // ブラウザが、直前のファイル情報を持っており、そこで判断している模様
+      e.target.value = '';
+    };
+
     const fileObject: File = e.target.files[0];
-    // オブジェクトURLを生成し、useState()を更新
-    setIsUploaded(true);
-    setImage(window.URL.createObjectURL(fileObject));
+    img.src = URL.createObjectURL(fileObject);
   };
 
   const onImageClear = () => {
-    window.URL.revokeObjectURL(image);
     setIsUploaded(false);
-    setImage('');
+    setImage({ src: '', width: 0, height: 0 });
   };
 
   return (
     <div className="home">
       Home <br />
-      <Canvas sketch={isUploaded ? Lumos.sketch(image) : NoImage.sketch()} />
+      <Canvas
+        sketch={isUploaded ? Lumos.sketch(imageProps) : NoImage.sketch()}
+      />
       <div className="btn-area">
         <div>
           <button
