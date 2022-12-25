@@ -1,9 +1,17 @@
-import p5 from 'p5';
+import p5, { Element } from 'p5';
 import Sketch from './Sketch';
 
 class Lumos extends Sketch {
-  static sketch() {
+  static sketch(prop: string) {
+    let img: Element;
+
     return (p: p5) => {
+      // Since this is specific to p5 module,
+      // eslint-disable-next-line no-param-reassign
+      p.preload = () => {
+        img = p.createImg(prop, '').hide();
+      };
+
       // Since this is specific to p5 module,
       // eslint-disable-next-line no-param-reassign
       p.setup = () => {
@@ -15,7 +23,7 @@ class Lumos extends Sketch {
       // Since this is specific to p5 module,
       // eslint-disable-next-line no-param-reassign
       p.draw = () => {
-        p.ellipse(50, 50, 80, 80);
+        p.image(img, 0, 0);
       };
     };
   }
