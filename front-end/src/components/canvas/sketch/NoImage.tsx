@@ -14,6 +14,7 @@ class NoImage extends Sketch {
       // eslint-disable-next-line no-param-reassign
       p.draw = () => {
         p.background(222);
+        p.textAlign(p.CENTER, p.CENTER);
         p.text('イメージをアップロードしてください', 512 / 2, 512 / 2);
       };
     };

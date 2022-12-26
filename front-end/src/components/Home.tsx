@@ -66,7 +66,7 @@ const Home = () => {
             hidden
             ref={uploadRef}
             type="file"
-            accept="image/*"
+            accept="image/png"
             onChange={onImageUpload}
           />
           <button
