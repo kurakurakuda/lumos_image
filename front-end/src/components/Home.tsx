@@ -50,6 +50,7 @@ const Home = () => {
       Home <br />
       <Canvas
         sketch={isUploaded ? Lumos.sketch(imageProps) : NoImage.sketch()}
+        // sketch={FileHandler.sketch()}
       />
       <div className="btn-area">
         <div>
@@ -66,7 +67,7 @@ const Home = () => {
             hidden
             ref={uploadRef}
             type="file"
-            accept="image/png"
+            accept="image/*"
             onChange={onImageUpload}
           />
           <button
