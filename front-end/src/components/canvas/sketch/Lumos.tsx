@@ -1,14 +1,9 @@
+import LumosProps from 'dto/LumosProps';
 import p5, { Element, Image } from 'p5';
 import Sketch from './Sketch';
 
-interface Property {
-  src: string;
-  width?: number;
-  height?: number;
-}
-
 class Lumos extends Sketch {
-  static sketch(prop: Property) {
+  static sketch(prop: LumosProps) {
     let ele: Element;
     let img: Image;
     let isLumos = false;
