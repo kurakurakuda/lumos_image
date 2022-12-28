@@ -50,7 +50,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      Home <br />
       <Canvas
         sketch={imageProps ? Lumos.sketch(imageProps) : NoImage.sketch()}
       />

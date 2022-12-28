@@ -7,3 +7,13 @@
   align-items: center;
   justify-content: center;
 }
+
+.link-area {
+  margin: 8px;
+  padding: 8px;
+}
+
+.link {
+  margin: 4px;
+  padding: 4px 12px;
+}
