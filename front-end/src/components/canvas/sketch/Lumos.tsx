@@ -1,10 +1,8 @@
-import LumosProps from 'dto/LumosProps';
-import p5, { Element, Image } from 'p5';
+import p5, { Image } from 'p5';
 import Sketch from './Sketch';
 
 class Lumos extends Sketch {
-  static sketch(prop: LumosProps) {
-    let ele: Element;
+  static sketch(data: string) {
     let img: Image;
     let isLumos = false;
     let lumosPixels: number[] = [];
@@ -13,13 +11,13 @@ class Lumos extends Sketch {
       // Since this is specific to p5 module,
       // eslint-disable-next-line no-param-reassign
       p.preload = () => {
-        ele = p.createImg(prop.src, '').hide();
+        img = p.loadImage(data);
       };
 
       // Since this is specific to p5 module,
       // eslint-disable-next-line no-param-reassign
       p.setup = () => {
-        super.setup(p, prop.width, prop.height);
+        super.setup(p, img.width, img.height);
         p.pixelDensity(1);
         p.frameRate(200);
       };
@@ -27,8 +25,7 @@ class Lumos extends Sketch {
       // Since this is specific to p5 module,
       // eslint-disable-next-line no-param-reassign
       p.draw = () => {
-        p.image(ele, 0, 0);
-        img = p.get();
+        p.image(img, 0, 0);
         // Only need to load the pixels[] array once, because we're only
         // manipulating pixels[] inside draw(), not drawing shapes.
         p.loadPixels();

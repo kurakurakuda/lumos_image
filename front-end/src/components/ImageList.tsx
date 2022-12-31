@@ -26,7 +26,7 @@ const ImageList = () => {
   ];
 
   const imageListTile = (id: string, date: string) => (
-    <div key="$id" className="list-tile">
+    <div key={id} className="list-tile">
       {date}
     </div>
   );
