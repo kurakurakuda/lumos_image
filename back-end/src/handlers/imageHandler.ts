@@ -5,6 +5,7 @@ import ImageListDto from '../dto/ImageListDto';
 import fs from 'fs';
 import ErrorRes from '../dto/ErrorRes';
 import uploadIF from '../dto/interface/UploadIF';
+import express from 'express';
 
 export const imageListGetHandler = (req: Request, res: Response) => {
   const images: ImageDto[] = [];
@@ -21,6 +22,13 @@ export const uploadHandler = async (
 ) => {
   const reqBody = req.body;
   const contents = reqBody.contents;
+  const fileType = reqBody.fileType;
+  if (!contents || contents.length === 0 || fileType !== 'png') {
+    res
+      .status(400)
+      .json(new ErrorRes('BAD_REQUEST', 'fileType or contents are invalid'));
+    return;
+  }
   const now = new Date().toISOString();
   const filePath = 'C:\\Users\\kris3\\OneDrive\\デスクトップ\\test2.png';
   try {
@@ -30,8 +38,12 @@ export const uploadHandler = async (
     res
       .status(500)
       .json(
-        new ErrorRes('500', 'System Error during uploading image to strorage')
+        new ErrorRes(
+          'SYSTEM_ERROR',
+          'System Error during uploading image to strorage'
+        )
       );
+    return;
   }
   res.json(new ImageDto('1', now));
 };
@@ -48,7 +60,7 @@ export const downloadHandler = async (req: Request, res: Response) => {
       .status(500)
       .json(
         new ErrorRes(
-          '500',
+          'SYSTEM_ERROR',
           'System Error during downloading image from strorage'
         )
       );
