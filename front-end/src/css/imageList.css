@@ -1,0 +1,14 @@
+.image-list {
+  padding: 4px;
+  position: fixed;
+  overflow-x: auto;
+  overflow-y: auto;
+  transition: 0.5s;
+  align-items: center;
+  justify-content: center;
+  top: 4%;
+}
+
+.list-tile {
+  padding: 8px;
+}
