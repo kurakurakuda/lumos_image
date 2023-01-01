@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import cors from 'cors';
 import { router as imageRouter } from './routers/ImageRouter';
 
 const app = express();
@@ -11,6 +12,13 @@ app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true
+  })
+);
+app.use(
+  cors({
+    origin: '*', //アクセス許可するオリジン
+    credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
+    optionsSuccessStatus: 200 //レスポンスstatusを200に設定
   })
 );
 app.use('/images', imageRouter);
