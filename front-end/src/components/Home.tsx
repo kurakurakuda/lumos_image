@@ -1,5 +1,5 @@
-import IUploadDto from 'dto/interface/IUploadDto';
 import React, { useState, useRef } from 'react';
+import { callUploadApi } from 'services/apiFetchService';
 import '../css/home.css';
 import Canvas from './canvas/Canvas';
 import Lumos from './canvas/sketch/Lumos';
@@ -35,11 +35,6 @@ const Home = () => {
     setImage(undefined);
   };
 
-  const UploadDtoBuilder = (data: string): IUploadDto => ({
-    fileType: 'png',
-    contents: data
-  });
-
   const saveImage = () => {
     if (!image) {
       // eslint-disable-next-line no-alert
@@ -47,19 +42,8 @@ const Home = () => {
       return;
     }
     const data = Sketch.getBase64String();
-
-    fetch('http://localhost:8000/images', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(UploadDtoBuilder(data))
-    })
-      .then(r => {
-        if (!r.ok) {
-          throw Error();
-        }
+    callUploadApi(data)
+      .then(_ => {
         // eslint-disable-next-line no-alert
         void alert('画像の保存に成功しました');
       })

@@ -3,22 +3,16 @@ import IImageDto from 'dto/interface/IImageDto';
 import React, { useEffect, useState } from 'react';
 import '../css/imageList.css';
 import IContentDto from 'dto/interface/IContentDto';
+import { callDownloadApi, callGetImageListApi } from 'services/apiFetchService';
 
 const ImageList = () => {
   const [images, setImages] = useState<IImageDto[] | undefined>(undefined);
 
   useEffect(() => {
     if (!images) {
-      fetch('http://localhost:8000/images', {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(async (result: Response) => {
-          const json = (await result.json()) as IImageListDto;
-          setImages(json.images);
+      callGetImageListApi()
+        .then((result: IImageListDto) => {
+          setImages(result.images);
         })
         .catch(_ => {
           // eslint-disable-next-line no-alert
@@ -29,24 +23,16 @@ const ImageList = () => {
   });
 
   const download = (id: string) => {
-    fetch(`http://localhost:8000/images/${id}/download`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(async (result: Response) => {
-        const json = (await result.json()) as IContentDto;
+    callDownloadApi(id)
+      .then((result: IContentDto) => {
         const a = document.createElement('a'); // Create <a>
-        a.href = `data:image/png;base64,${json.contents}`; // Image Base64 Goes here
-        a.download = `${json.id}.${json.fileType}`; // File name Here
+        a.href = `data:image/${result.fileType};base64,${result.contents}`; // Image Base64 Goes here
+        a.download = `${result.id}.${result.fileType}`; // File name Here
         a.click(); // Downloaded file
       })
       .catch(_ => {
         // eslint-disable-next-line no-alert
         void alert('ダウンロードに失敗しました');
-        setImages([]);
       });
   };
 
