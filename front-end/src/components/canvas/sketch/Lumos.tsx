@@ -72,7 +72,14 @@ class Lumos extends Sketch {
       // Since this is specific to p5 module,
       // eslint-disable-next-line no-param-reassign
       p.mouseClicked = () => {
-        isLumos = !isLumos;
+        if (
+          p.mouseX > 0 &&
+          p.mouseX < img.width &&
+          p.mouseY > 0 &&
+          p.mouseY < img.height
+        ) {
+          isLumos = !isLumos;
+        }
       };
     };
   }

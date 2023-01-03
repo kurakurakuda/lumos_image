@@ -7,10 +7,11 @@ const app = express();
 const port = process.env.PORT || '8000';
 
 // to support JSON-encoded bodies
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '100mb' }));
 // to support URL-encoded bodies
 app.use(
   bodyParser.urlencoded({
+    limit: '100mb',
     extended: true
   })
 );
