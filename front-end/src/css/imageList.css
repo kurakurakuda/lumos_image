@@ -11,4 +11,6 @@
 
 .list-tile {
   padding: 8px;
+  text-decoration: underline;
+  cursor: pointer;
 }

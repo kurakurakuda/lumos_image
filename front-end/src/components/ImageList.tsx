@@ -2,6 +2,7 @@ import IImageListDto from 'dto/interface/IImageListDto';
 import IImageDto from 'dto/interface/IImageDto';
 import React, { useEffect, useState } from 'react';
 import '../css/imageList.css';
+import IContentDto from 'dto/interface/IContentDto';
 
 const ImageList = () => {
   const [images, setImages] = useState<IImageDto[] | undefined>(undefined);
@@ -27,9 +28,33 @@ const ImageList = () => {
     }
   });
 
+  const download = (id: string) => {
+    fetch(`http://localhost:8000/images/${id}/download`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(async (result: Response) => {
+        const json = (await result.json()) as IContentDto;
+        const a = document.createElement('a'); // Create <a>
+        a.href = `data:image/png;base64,${json.contents}`; // Image Base64 Goes here
+        a.download = `${json.id}.${json.fileType}`; // File name Here
+        a.click(); // Downloaded file
+      })
+      .catch(_ => {
+        // eslint-disable-next-line no-alert
+        void alert('ダウンロードに失敗しました');
+        setImages([]);
+      });
+  };
+
   const imageListTile = (id: string, date: string) => (
     <div key={id} className="list-tile">
-      {date}
+      <div onClick={() => download(id)} aria-hidden="true" role="button">
+        {date}
+      </div>
     </div>
   );
 
