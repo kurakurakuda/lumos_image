@@ -1,0 +1,40 @@
+version: "3"
+services:
+  dbserver:
+    image: mysql:8.0
+    container_name: lumos-image-mysql
+    build: ./infra/mysql/
+    environment:
+      MYSQL_DATABASE: lumos_image_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    volumes:
+      # MySQLの設定ファイル
+      - ./infra/mysql/config:/etc/mysql/conf.d
+      # 起動スクリプト
+      - ./infra/mysql/initdb:/docker-entrypoint-initdb.d
+  backend:
+    image: lumos-image-backend
+    container_name: lumos-image-backend
+    depends_on:
+      - dbserver
+    build: ./back-end/
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+  frontend:
+    image: lumos-image-frontend
+    container_name: lumos-image-frontend
+    build: ./front-end/
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
