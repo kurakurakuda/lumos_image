@@ -1,6 +1,6 @@
 # ベースイメージの作成
 FROM node:16-bullseye-slim
-ENV NODE_OPTIONS=--max_old_space_size=2048
+
 # package.jsonをコピー
 COPY ["package.json", "./"]
 # パッケージをインストール

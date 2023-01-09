@@ -1,10 +1,12 @@
+import { ImageEntity } from '../entity/ImageEntity';
+
 class ImageDto {
   id: string;
   createdDateTs: string;
 
-  constructor(id: string, createdDateTs: string) {
-    this.id = id;
-    this.createdDateTs = createdDateTs;
+  constructor(entity: ImageEntity) {
+    this.id = entity.id;
+    this.createdDateTs = entity.createdDateTs;
   }
 }
 
