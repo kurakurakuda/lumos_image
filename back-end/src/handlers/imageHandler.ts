@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import ContentDto from '../dto/ContentDto';
 import ImageDto from '../dto/ImageDto';
 import ImageListDto from '../dto/ImageListDto';
-import fs from 'fs';
 import IUploadDto from '../dto/interface/IUploadDto';
 import { ValidateUploadRequest } from '../services/RequestValidator';
 import {
@@ -16,9 +15,7 @@ import {
   findImageById
 } from '../repository/ImageRepository';
 import { v4 } from 'uuid';
-
-const dir = `C:\\Users\\kris3\\OneDrive\\デスクトップ\\`;
-const buildImagePath = (fileName: string) => `${dir}${fileName}`;
+import { buildImagePath, download, upload } from '../services/StorageService';
 
 export const imageListGetHandler = async (req: Request, res: Response) => {
   try {
@@ -51,9 +48,8 @@ export const uploadHandler = async (
   const path = buildImagePath(`${id}.${fileType}`);
 
   try {
-    const buffer = Buffer.from(contents, 'base64');
     const result = await insertImageMetaData(id, path, fileType);
-    await fs.promises.writeFile(path, buffer);
+    await upload(path, contents);
     return res.json(new ImageDto(result));
   } catch (err) {
     console.log(err);
@@ -71,9 +67,7 @@ export const downloadHandler = async (req: Request, res: Response) => {
     if (!entity) {
       return BuildNotFoundResponse(res, `The id ${id} is not found in db`);
     }
-    const base64Data = await fs.promises.readFile(entity.path, {
-      encoding: 'base64'
-    });
+    const base64Data = await download(entity.path);
     return res.json(new ContentDto(id, 'png', base64Data));
   } catch (err) {
     console.log(err);

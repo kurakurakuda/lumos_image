@@ -29,7 +29,9 @@ datasource
 
 for (let i = 0; i < tryCount; i += 1) {
   void new Promise(resolve => setTimeout(resolve, 2 ** i * 1000)).then(() => {
+    console.log(`Initializing data source at ${i + 2} times`);
     if (datasource.isInitialized) {
+      console.log(`Data Source has been already initialized`);
       return;
     }
     datasource

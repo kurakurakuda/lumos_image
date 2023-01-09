@@ -15,5 +15,9 @@ RUN yarn add nodemon
 
 # ファイルを全部作業用ディレクトリにコピー
 COPY . .
+
+# 画像保存用のディレクトリを作成
+RUN mkdir storage
+
 # コンテナを起動する際に実行されるコマンド
 ENTRYPOINT [ "yarn", "start" ]
