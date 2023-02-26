@@ -18,11 +18,29 @@ services:
       - ./infra/mysql/config:/etc/mysql/conf.d
       # 起動スクリプト
       - ./infra/mysql/initdb:/docker-entrypoint-initdb.d
+  zookeeper-server:
+    image: "bitnami/zookeeper:latest"
+    depends_on:
+      - dbserver
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka-server:
+    image: "bitnami/kafka:latest"
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-server:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper-server
   backend:
     image: lumos-image-backend
     container_name: lumos-image-backend
     depends_on:
-      - dbserver
+      - kafka-server
     build: ./back-end/
     ports:
       - "8000:8000"
