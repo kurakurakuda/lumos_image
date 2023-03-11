@@ -23,7 +23,7 @@ List up topics
 
 Create topic
 
-> kafka-topics.sh --create --topic ${sample-events} --bootstrap-server localhost:9092  
+> kafka-topics.sh --create --topic sample-events --bootstrap-server localhost:9092  
 > Created topic ${sample-events}.
 
 Send messages to topic
