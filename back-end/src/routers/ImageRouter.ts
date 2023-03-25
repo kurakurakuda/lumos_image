@@ -4,8 +4,11 @@ import {
   imageListGetHandler,
   uploadHandler
 } from '../handlers/ImageHandler';
+import { processProducer } from '../services/TopicService';
+
 export const router = express
   .Router()
   .get('/', imageListGetHandler as RequestHandler)
   .post('/', uploadHandler as RequestHandler)
-  .get('/:id/download', downloadHandler as RequestHandler);
+  .get('/:id/download', downloadHandler as RequestHandler)
+  .post('/producer', processProducer as RequestHandler);

@@ -1,4 +1,5 @@
-import { Kafka } from 'kafkajs';
+import { Kafka, Message } from 'kafkajs';
+import { Request, Response } from 'express';
 
 const kafka = new Kafka({
   clientId: 'lumos-image-kafka',
@@ -24,16 +25,18 @@ export const processTopic = async () => {
 };
 
 export const processConsumer = async () => {
-  const consumer1 = kafka.consumer({ groupId: 'sample1' });
+  const consumer1 = kafka.consumer({ groupId: 'sample' });
   await consumer1.connect();
   await consumer1.subscribe({ topic: topicName });
 
-  const consumer2 = kafka.consumer({ groupId: 'sample2' });
+  const consumer2 = kafka.consumer({ groupId: 'sample' });
   await consumer2.connect();
   await consumer2.subscribe({ topic: topicName });
 
   let counter1 = 1;
   let counter2 = 1;
+
+  console.log('consumer starts to run');
 
   await consumer1.run({
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -72,4 +75,26 @@ export const processConsumer = async () => {
       counter2++;
     }
   });
+};
+
+export const processProducer = async (req: Request, res: Response) => {
+  try {
+    const msg: Message = {
+      value: JSON.stringify(req.body)
+    };
+
+    const producer = kafka.producer();
+    await producer.connect();
+    await producer.send({
+      topic: topicName,
+      messages: [msg]
+    });
+
+    await producer.disconnect();
+
+    console.log('processProducer was done');
+  } catch (e) {
+    console.log(e);
+  }
+  return res.send('Hello World!');
 };

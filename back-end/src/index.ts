@@ -5,28 +5,28 @@ import { router as imageRouter } from './routers/ImageRouter';
 
 import { processConsumer, processTopic } from './services/TopicService';
 
-const app = express();
+const api = express();
 const port = process.env.PORT || '8000';
 
 // to support JSON-encoded bodies
-app.use(bodyParser.json({ limit: '100mb' }));
+api.use(bodyParser.json({ limit: '100mb' }));
 // to support URL-encoded bodies
-app.use(
+api.use(
   bodyParser.urlencoded({
     limit: '100mb',
     extended: true
   })
 );
-app.use(
+api.use(
   cors({
     origin: '*', //アクセス許可するオリジン
     credentials: true, //レスポンスヘッダーにAccess-Control-Allow-Credentials追加
     optionsSuccessStatus: 200 //レスポンスstatusを200に設定
   })
 );
-app.use('/images', imageRouter);
+api.use('/images', imageRouter);
 
-app.listen(port, () => {
+api.listen(port, () => {
   return console.log(`Server is listening on ${port}`);
 });
 
