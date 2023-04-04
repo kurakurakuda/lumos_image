@@ -24,8 +24,8 @@ export const insertImageMetaData = async (
   try {
     return await repo.save(new ImageEntity(id, path, fileType));
   } catch (err) {
-    console.log('insertImageMetaData');
-    console.log(err);
+    console.log('Failed to insert meta data');
+    console.error(err);
     throw Error;
   }
 };

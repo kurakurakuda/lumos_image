@@ -4,7 +4,7 @@ import {
   imageListGetHandler,
   uploadHandler
 } from '../handlers/ImageHandler';
-import { processProducer } from '../services/TopicService';
+import { processProducer } from '../producers/UploadResultProducer';
 
 export const router = express
   .Router()

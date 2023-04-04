@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import { router as imageRouter } from './routers/ImageRouter';
 
-import { processConsumer, processTopic } from './services/TopicService';
+import { createTopics } from './topics/TopicProcessor';
 
 const api = express();
 const port = process.env.PORT || '8000';
@@ -30,7 +30,6 @@ api.listen(port, () => {
   return console.log(`Server is listening on ${port}`);
 });
 
-void processTopic().then(_ => {
-  console.log('processTopic is done');
-  void processConsumer().then(_ => console.log('processConsumer is done'));
+void createTopics().then(_ => {
+  console.log('Topics were created');
 });

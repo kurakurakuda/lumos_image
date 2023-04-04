@@ -10,7 +10,8 @@ export const upload = async (path: string, contents: string) => {
     const buffer = Buffer.from(contents, 'base64');
     await fs.promises.writeFile(path, buffer);
   } catch (err) {
-    console.log(err);
+    console.log('Failed to upload image');
+    console.error(err);
     throw Error;
   }
 };
@@ -21,7 +22,8 @@ export const download = async (path: string) => {
       encoding: 'base64'
     });
   } catch (err) {
-    console.log(err);
+    console.log('Failed to download image');
+    console.error(err);
     throw Error;
   }
 };
