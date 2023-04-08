@@ -45,11 +45,13 @@ const Home = () => {
     callUploadApi(data)
       .then(res => {
         // eslint-disable-next-line no-alert
-        void alert(`画像の保存に成功しました。 相関ID: ${res.correlationId}`);
+        void alert(
+          `アップロードを受け付けました。 相関ID: ${res.correlationId}`
+        );
       })
       .catch(_ => {
         // eslint-disable-next-line no-alert
-        void alert('画像の保存に失敗しました');
+        void alert('アップロードを受け付けることができませんでした。');
       });
   };
 

@@ -21,7 +21,7 @@ export const startUploadConsumer = async (consumerNo: number) => {
     // eslint-disable-next-line @typescript-eslint/require-await
     eachMessage: async ({ topic, partition, message }) => {
       console.log(
-        `received a new message number: on consumer#${consumerNo}: `,
+        `startUploadConsumer received a new message number: on consumer#${consumerNo}: `,
         {
           topic,
           partition,

@@ -2,11 +2,19 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import cors from 'cors';
 import { router as imageRouter } from './routers/ImageRouter';
-
+import { Server } from 'socket.io';
 import { createTopics } from './topics/TopicProcessor';
+import http from 'http';
+import { startUploadResultConsumer } from './consumers/UploadResultConsumer';
 
 const api = express();
 const port = process.env.PORT || '8000';
+const server = http.createServer(api);
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  }
+});
 
 // to support JSON-encoded bodies
 api.use(bodyParser.json({ limit: '100mb' }));
@@ -26,10 +34,20 @@ api.use(
 );
 api.use('/images', imageRouter);
 
-api.listen(port, () => {
+server.listen(port, () => {
   return console.log(`Server is listening on ${port}`);
 });
 
 void createTopics().then(_ => {
   console.log('Topics were created');
+
+  io.on('connect', socket => {
+    console.log('a user connected');
+    void startUploadResultConsumer(socket);
+    console.log('a user connected 2222');
+    socket.emit('foo', 'foooooooooooo');
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+  });
 });
