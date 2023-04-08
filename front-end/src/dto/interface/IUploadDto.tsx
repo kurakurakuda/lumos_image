@@ -1,4 +1,5 @@
 interface IUploadDto {
+  correlationId: string;
   fileType: string;
   contents: string;
 }

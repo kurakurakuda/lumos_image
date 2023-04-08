@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import IUploadDto from '../dto/interface/IUploadDto';
-import UploadResultDto from '../dto/UploadReultDto';
+import UploadResultDto from '../dto/UploadResultDto';
 import { sendUploadResult } from '../producers/UploadResultProducer';
 import { insertImageMetaData } from '../repository/ImageRepository';
 import { ValidateUploadRequest } from '../services/RequestValidator';

@@ -3,19 +3,14 @@ import ContentDto from '../dto/ContentDto';
 import ImageDto from '../dto/ImageDto';
 import ImageListDto from '../dto/ImageListDto';
 import IUploadDto from '../dto/interface/IUploadDto';
-import { ValidateUploadRequest } from '../services/RequestValidator';
 import {
-  BuildBadRequestResponse,
   BuildNotFoundResponse,
   BuildSystemErrorResponse
 } from '../services/ErrorResponseBuilder';
-import {
-  insertImageMetaData,
-  findImages,
-  findImageById
-} from '../repository/ImageRepository';
-import { v4 } from 'uuid';
-import { buildImagePath, download, upload } from '../services/StorageService';
+import { findImages, findImageById } from '../repository/ImageRepository';
+import { download } from '../services/StorageService';
+import { uploadProducer } from '../producers/UploadRequestProducer';
+import UploadResultDto from '../dto/UploadResultDto';
 
 export const imageListGetHandler = async (req: Request, res: Response) => {
   try {
@@ -36,21 +31,11 @@ export const uploadHandler = async (
   res: Response
 ) => {
   const reqBody = req.body;
-  if (ValidateUploadRequest(reqBody).length > 0) {
-    return BuildBadRequestResponse(res, 'fileType or contents are invalid');
-  }
-
-  const contents = reqBody.contents;
-  const fileType = reqBody.fileType;
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  const id: string = v4();
-  const path = buildImagePath(`${id}.${fileType}`);
+  const correlationId = reqBody.correlationId;
 
   try {
-    const result = await insertImageMetaData(id, path, fileType);
-    await upload(path, contents);
-    return res.json(new ImageDto(result));
+    await uploadProducer(reqBody);
+    return res.status(202).json(new UploadResultDto(correlationId, 'ACCEPTED'));
   } catch (err) {
     console.log(err);
     return BuildSystemErrorResponse(

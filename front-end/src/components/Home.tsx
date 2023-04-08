@@ -43,9 +43,9 @@ const Home = () => {
     }
     const data = Sketch.getBase64String();
     callUploadApi(data)
-      .then(_ => {
+      .then(res => {
         // eslint-disable-next-line no-alert
-        void alert('画像の保存に成功しました');
+        void alert(`画像の保存に成功しました。 相関ID: ${res.correlationId}`);
       })
       .catch(_ => {
         // eslint-disable-next-line no-alert

@@ -1,4 +1,5 @@
 USE lumos_image_db;
+ALTER USER 'user' IDENTIFIED WITH mysql_native_password BY 'password';
 
 DROP TABLE IF EXISTS images;
 
