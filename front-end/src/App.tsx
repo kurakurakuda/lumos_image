@@ -6,6 +6,7 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Home from './components/Home';
 import './css/App.css';
+import IQueueResultDto from 'dto/interface/IQueueResultDto';
 
 const App = () => {
   const socket = io('http://localhost:8000');
@@ -19,9 +20,14 @@ const App = () => {
       console.log('onDisconnect');
     }
 
-    function onFooEvent(value: unknown) {
+    function onFooEvent(value: string) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`onFooEvent: ${value}`);
+      const result = JSON.parse(value) as IQueueResultDto;
+      // eslint-disable-next-line no-alert
+      void alert(
+        `アップロードが完了しました。 相関ID: ${result.correlationId}`
+      );
     }
 
     socket.on('connect', onConnect);

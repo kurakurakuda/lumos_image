@@ -44,8 +44,6 @@ void createTopics().then(_ => {
   io.on('connect', socket => {
     console.log('a user connected');
     void startUploadResultConsumer(socket);
-    console.log('a user connected 2222');
-    socket.emit('foo', 'foooooooooooo');
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
