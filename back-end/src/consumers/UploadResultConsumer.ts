@@ -1,6 +1,7 @@
 import { kafkaClient } from '../topics/client/KafkaClient';
 import * as socketIo from 'socket.io';
 import * as dotenv from 'dotenv';
+import UploadResultDto from '../dto/UploadResultDto';
 dotenv.config();
 
 const uploadResultListenTopicName = process.env.TOPIC_UPLOAD_RESULT;
@@ -29,8 +30,12 @@ export const startUploadResultConsumer = async (socket: socketIo.Socket) => {
         }
       );
 
+      const result: UploadResultDto = JSON.parse(
+        message.value.toString()
+      ) as UploadResultDto;
+
       console.log(`Sending upload result was completed.`);
-      socket.emit('foo', message.value.toString());
+      socket.emit(`${result.clientId}-upload`, message.value.toString());
     }
   });
 };

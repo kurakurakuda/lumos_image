@@ -2,12 +2,16 @@ import IContentDto from 'dto/interface/IContentDto';
 import IImageListDto from 'dto/interface/IImageListDto';
 import IQueueResultDto from 'dto/interface/IQueueResultDto';
 import IUploadDto from 'dto/interface/IUploadDto';
-import { v4 } from 'uuid';
 
 const host = 'http://localhost:8000/images';
 
-const buildUploadDto = (contents: string): IUploadDto => ({
-  correlationId: v4(),
+const buildUploadDto = (
+  clientId: string,
+  correlationId: string,
+  contents: string
+): IUploadDto => ({
+  clientId,
+  correlationId,
   fileType: 'png',
   contents
 });
@@ -43,8 +47,12 @@ const fetchPostApi = async (url: string, body: IUploadDto) => {
   return res;
 };
 
-export const callUploadApi = async (content: string) => {
-  const body: IUploadDto = buildUploadDto(content);
+export const callUploadApi = async (
+  clientId: string,
+  correlationId: string,
+  content: string
+) => {
+  const body: IUploadDto = buildUploadDto(clientId, correlationId, content);
   try {
     const res = await fetchPostApi(host, body);
     return (await res.json()) as IQueueResultDto;

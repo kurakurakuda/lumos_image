@@ -42,7 +42,12 @@ export const startUploadConsumer = async (consumerNo: number) => {
           console.log('Invalid Message to upload');
           console.error(errorMsg);
           await sendUploadResult(
-            new UploadResultDto(req.correlationId, 'FAILURE', 'BAD_REQUEST')
+            new UploadResultDto(
+              req.clientId,
+              req.correlationId,
+              'FAILURE',
+              'BAD_REQUEST'
+            )
           );
           return;
         }
@@ -57,14 +62,19 @@ export const startUploadConsumer = async (consumerNo: number) => {
         await upload(path, contents);
 
         await sendUploadResult(
-          new UploadResultDto(req.correlationId, 'SUCCESS')
+          new UploadResultDto(req.clientId, req.correlationId, 'SUCCESS')
         );
         console.log(`Upload Process was completed.`);
       } catch (err) {
         console.log(`Upload Process was failed. Error:`);
         console.error(err);
         await sendUploadResult(
-          new UploadResultDto(req.correlationId, 'FAILURE', 'SYSTEM_ERROR')
+          new UploadResultDto(
+            req.clientId,
+            req.correlationId,
+            'FAILURE',
+            'SYSTEM_ERROR'
+          )
         );
       }
     }

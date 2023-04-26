@@ -35,7 +35,9 @@ export const uploadHandler = async (
 
   try {
     await uploadProducer(reqBody);
-    return res.status(202).json(new UploadResultDto(correlationId, 'ACCEPTED'));
+    return res
+      .status(202)
+      .json(new UploadResultDto(reqBody.clientId, correlationId, 'ACCEPTED'));
   } catch (err) {
     console.log(err);
     return BuildSystemErrorResponse(

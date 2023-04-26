@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { callUploadApi } from 'services/apiFetchService';
 import '../css/home.css';
+import { v4 } from 'uuid';
 import Canvas from './canvas/Canvas';
 import Lumos from './canvas/sketch/Lumos';
 import NoImage from './canvas/sketch/NoImage';
 import Sketch from './canvas/sketch/Sketch';
 
-const Home = () => {
+const Home = (props: { clientId: string }) => {
+  const { clientId } = props;
   const [image, setImage] = useState<string | undefined>(undefined);
   const uploadRef = useRef<HTMLInputElement>(null);
 
@@ -42,16 +44,16 @@ const Home = () => {
       return;
     }
     const data = Sketch.getBase64String();
-    callUploadApi(data)
-      .then(res => {
-        // eslint-disable-next-line no-alert
-        void alert(
-          `アップロードを受け付けました。 相関ID: ${res.correlationId}`
-        );
-      })
+    const correlationId = v4();
+    // eslint-disable-next-line no-alert
+    void alert(`アップロードを依頼します。 相関ID: ${correlationId}`);
+    callUploadApi(clientId, correlationId, data)
+      .then(_ => {})
       .catch(_ => {
         // eslint-disable-next-line no-alert
-        void alert('アップロードを受け付けることができませんでした。');
+        void alert(
+          `アップロードを受け付けることができませんでした。相関ID: ${correlationId}`
+        );
       });
   };
 

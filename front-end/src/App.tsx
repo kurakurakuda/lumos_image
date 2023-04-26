@@ -3,13 +3,17 @@ import NotFound from 'components/NotFound';
 import { useEffect } from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { io } from 'socket.io-client';
-import Home from './components/Home';
+import { io, Socket } from 'socket.io-client';
 import './css/App.css';
 import IQueueResultDto from 'dto/interface/IQueueResultDto';
+import { v4 } from 'uuid';
+import Home from './components/Home';
 
 const App = () => {
-  const socket = io('http://localhost:8000');
+  const socket: Socket = io('http://localhost:8000');
+  const clientId: string = v4();
+
+  console.log(`clientId: ${clientId}`);
 
   useEffect(() => {
     function onConnect() {
@@ -20,9 +24,9 @@ const App = () => {
       console.log('onDisconnect');
     }
 
-    function onFooEvent(value: string) {
+    function onUploadResultEvent(value: string) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.log(`onFooEvent: ${value}`);
+      console.log(`onUploadResultEvent: ${value}`);
       const result = JSON.parse(value) as IQueueResultDto;
       // eslint-disable-next-line no-alert
       void alert(
@@ -32,12 +36,12 @@ const App = () => {
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
-    socket.on('foo', onFooEvent);
+    socket.on(`${clientId}-upload`, onUploadResultEvent);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
-      socket.off('foo', onFooEvent);
+      socket.off(`${clientId}-upload`, onUploadResultEvent);
     };
   });
 
@@ -53,7 +57,7 @@ const App = () => {
           </Link>
         </div>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home clientId={clientId} />} />
           <Route path="/images" element={<ImageList />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
