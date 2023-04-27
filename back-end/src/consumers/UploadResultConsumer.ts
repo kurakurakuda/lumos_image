@@ -35,7 +35,21 @@ export const startUploadResultConsumer = async (socket: socketIo.Socket) => {
       ) as UploadResultDto;
 
       console.log(`Sending upload result was completed.`);
-      socket.emit(`${result.clientId}-upload`, message.value.toString());
+      socket
+        .timeout(5000)
+        .emit(
+          `${result.clientId}-upload`,
+          message.value.toString(),
+          (err: unknown, responsees: unknown) => {
+            if (err) {
+              // retry
+              console.log(err);
+            } else {
+              console.log('acknowledged');
+              console.log(responsees);
+            }
+          }
+        );
     }
   });
 };

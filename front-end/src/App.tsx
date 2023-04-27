@@ -24,10 +24,11 @@ const App = () => {
       console.log('onDisconnect');
     }
 
-    function onUploadResultEvent(value: string) {
+    function onUploadResultEvent(value: string, cb: (arg: object) => void) {
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`onUploadResultEvent: ${value}`);
       const result = JSON.parse(value) as IQueueResultDto;
+      cb({ status: 'OK' });
       // eslint-disable-next-line no-alert
       void alert(
         `アップロードが完了しました。 相関ID: ${result.correlationId}`
