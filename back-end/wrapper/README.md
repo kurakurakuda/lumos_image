@@ -43,6 +43,15 @@
 [EXpress - Node.js Web application framework](https://expressjs.com/)  
 [EXpress - Node.js Web アプリケーションフレームワーク(日本語版)](https://expressjs.com/ja/)
 
+# Kafka JS
+
+[KafkaJS](https://kafka.js.org/docs/getting-started)
+
+# Socket IO
+
+[rfc6455 - The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455)  
+[socket.io](https://socket.io/docs/v4/)
+
 # Configu ESLint & Prettier
 
 ## ESLint

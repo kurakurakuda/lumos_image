@@ -18,6 +18,11 @@
 [p5js.jp](https://p5js.jp/)  
 [p5.js Brightness](https://p5js.org/examples/image-brightness.html)
 
+# Socket IO
+
+[rfc6455 - The WebSocket Protocol](https://www.rfc-editor.org/rfc/rfc6455)  
+[socket.io](https://socket.io/docs/v4/)
+
 # Configu ESLint & Prettier
 
 ## ESLint

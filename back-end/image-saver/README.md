@@ -43,6 +43,10 @@
 [EXpress - Node.js Web application framework](https://expressjs.com/)  
 [EXpress - Node.js Web アプリケーションフレームワーク(日本語版)](https://expressjs.com/ja/)
 
+# Kafka JS
+
+[KafkaJS](https://kafka.js.org/docs/getting-started)
+
 # Configu ESLint & Prettier
 
 ## ESLint
