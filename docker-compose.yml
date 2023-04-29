@@ -36,23 +36,48 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper-server
-  backend:
-    image: lumos-image-backend
-    container_name: lumos-image-backend
+  backend-wrapper:
+    image: lumos-image-backend-wrapper
+    container_name: lumos-image-backend-wrapper
     depends_on:
       - kafka-server
-    build: ./back-end/
+    build: ./back-end/wrapper/
     ports:
       - "8000:8000"
     volumes:
       - .:/app
+  backend-image-saver:
+    image: lumos-image-backend-image-saver
+    container_name: lumos-image-backend-image-saver
+    depends_on:
+      - backend-wrapper
+    build: ./back-end/image-saver/
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+      - shared_data:/storage
+  backend-data-downloader:
+    image: lumos-image-backend-data-downloader
+    container_name: lumos-image-backend-data-downloader
+    depends_on:
+      - backend-image-saver
+    build: ./back-end/data-downloader/
+    ports:
+      - "8002:8002"
+    volumes:
+      - .:/app
+      - shared_data:/storage
   frontend:
     image: lumos-image-frontend
     container_name: lumos-image-frontend
     build: ./front-end/
     depends_on:
-      - backend
+      - backend-data-downloader
     ports:
       - "3000:3000"
     volumes:
       - ./:/usr/src/app
+
+volumes:
+  shared_data:

@@ -3,7 +3,8 @@ import IImageListDto from 'dto/interface/IImageListDto';
 import IQueueResultDto from 'dto/interface/IQueueResultDto';
 import IUploadDto from 'dto/interface/IUploadDto';
 
-const host = 'http://localhost:8000/images';
+const hostWrapper = 'http://localhost:8000/queues';
+const hostDataDownloader = 'http://localhost:8002/images';
 
 const buildUploadDto = (
   clientId: string,
@@ -16,7 +17,7 @@ const buildUploadDto = (
   contents
 });
 
-const buildDownloadUrl = (id: string) => `${host}/${id}/download`;
+const buildDownloadUrl = (id: string) => `${hostDataDownloader}/${id}/download`;
 
 const fetchGetApi = async (url: string) => {
   const res = await fetch(url, {
@@ -54,7 +55,7 @@ export const callUploadApi = async (
 ) => {
   const body: IUploadDto = buildUploadDto(clientId, correlationId, content);
   try {
-    const res = await fetchPostApi(host, body);
+    const res = await fetchPostApi(hostWrapper, body);
     return (await res.json()) as IQueueResultDto;
   } catch (_) {
     throw Error();
@@ -73,7 +74,7 @@ export const callDownloadApi = async (id: string) => {
 
 export const callGetImageListApi = async () => {
   try {
-    const res = await fetchGetApi(host);
+    const res = await fetchGetApi(hostDataDownloader);
     return (await res.json()) as IImageListDto;
   } catch (_) {
     throw Error();
